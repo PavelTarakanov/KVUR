@@ -167,3 +167,4 @@ int input(double* a, double* b, double* c)
     scanf_check(c);
     return 0;
 }
+
