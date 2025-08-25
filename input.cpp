@@ -2,37 +2,31 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-int input_coefficients(double* coefficients)
+int input_coefficients(SquareEquationData* test)
 {
-    assert (!check_null(coefficients[0]));
-    assert (!check_null(coefficients[1]));
-    assert (!check_null(coefficients[2]));
+    assert (test);
 
-    assert (!double_comparison(coefficients[0], coefficients[1]));
-    assert (!double_comparison(coefficients[1], coefficients[2]));
-    assert (!double_comparison(coefficients[0], coefficients[2]));
+    one_scanf(&test->coefficient_a, "Input X^2 coefficient: ");
 
-    one_scanf(&coefficients[0], "Input X^2 coefficient: ");
+    one_scanf(&test->coefficient_b, "Input X coefficient: ");
 
-    one_scanf(&coefficients[1], "Input X coefficient: ");
-
-    one_scanf(&coefficients[2], "Input free coefficient: ");
+    one_scanf(&test->coefficient_c, "Input free coefficient: ");
 
     return 0;
 }
 
-double one_scanf(double* coefficients, const char* const output)
+int one_scanf(double* coefficient, const char* const output)
  {
-    assert (!check_null(coefficients[0]));
+    assert (coefficient);
+    assert (output);
 
     printf("%s", output);
 
     int is_number = -1;
 
-    while ((is_number = scanf("%lf", &coefficients[0])) != 1)
+    while ((is_number = scanf("%lf", coefficient)) != 1 || check_buffer() == 1)
     {
         printf("Input number!\n");
-
         clean_buffer();
     }
     return 0;
@@ -44,4 +38,17 @@ void clean_buffer(void)
         {
             continue;
         }
+}
+
+int check_buffer(void)
+{
+    int ch = ' ';
+    while ((ch = getchar()) != '\n')
+    {
+        if  (ch != '\n' && ch != ' ')
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
