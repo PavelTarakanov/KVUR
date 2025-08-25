@@ -1,40 +1,38 @@
 #include <assert.h>
 #include <math.h>
+#include <stdio.h>
 #include "square_solver.h"
 
-int equation_solver(double *coefficients, double* roots)
+int equation_solver(SquareEquationData* test)
 {
-    assert (!check_null(roots[0]));
-    assert (!check_null(roots[1]));
-    assert (!double_comparison(roots[0], roots[1]));
+    assert (test);
 
-    assert (!isnan(coefficients[0]));
-    assert (!isnan(coefficients[1]));
-    assert (!isnan(coefficients[2]));
+    assert (!isnan(test->coefficient_a));
+    assert (!isnan(test->coefficient_b));
+    assert (!isnan(test->coefficient_c));
 
 
-    if (check_null(coefficients[0]))
+    if (check_null(test->coefficient_a))
     {
-        return linear_solver(coefficients, roots);
+        return linear_solver(test);
     }
     else
     {
-        return square_solver(coefficients, roots);
+        return square_solver(test);
     }
 }
 
-int square_solver(double *coefficients, double* roots)
+int square_solver(SquareEquationData* test)
 
 {
-    assert (!check_null(roots[0]));
-    assert (!check_null(roots[1]));
-    assert (!double_comparison(roots[0], roots[1]));
+    assert (test);
 
-    assert (!isnan(coefficients[0]));
-    assert (!isnan(coefficients[1]));
-    assert (!isnan(coefficients[2]));
+    assert (!isnan(test->coefficient_a));
+    assert (!isnan(test->coefficient_b));
+    assert (!isnan(test->coefficient_c));
 
-    double discriminant = discriminant_calculate(coefficients);
+    double discriminant = discriminant_calculate(test);
+
 
     if (discriminant < 0)
     {
@@ -42,11 +40,11 @@ int square_solver(double *coefficients, double* roots)
     }
     else if (check_null(discriminant))
     {
-        roots[0] = -coefficients[1]/(2*coefficients[0]);
+        test->root_1 = (-test->coefficient_b)/(2*test->coefficient_a);
 
-        if (check_null(roots[0]))
+        if (check_null(test->root_1))
         {
-            roots[0] = 0;
+            test->root_1 = 0;
         }
 
         return ONE_ROOT;
@@ -55,16 +53,16 @@ int square_solver(double *coefficients, double* roots)
     {
         double sqrt_discriminant = sqrt(discriminant);
 
-        roots[0] = (-coefficients[1]+sqrt_discriminant)/(2*coefficients[0]);
-        roots[1] = (-coefficients[1]-sqrt_discriminant)/(2*coefficients[0]);
+        test->root_1 = (-(test->coefficient_b)+sqrt_discriminant)/(2*test->coefficient_a);
+        test->root_2 = (-(test->coefficient_b)-sqrt_discriminant)/(2*test->coefficient_a);
 
-        if (check_null(roots[0]))
+        if (check_null(test->root_1))
         {
-            roots[0] = 0;
+            test->root_1 = 0;
         }
-        if (check_null(roots[1]))
+        if (check_null(test->root_2))
         {
-            roots[1] = 0;
+            test->root_2 = 0;
         }
         return TWO_ROOTS;
     }
@@ -75,16 +73,16 @@ int check_null(double root)
     return fabs(root) < INACCURACY;
 }
 
-int linear_solver(double* coefficients, double* roots)
+int linear_solver(SquareEquationData* test)
 {
-    assert (!check_null(roots[0]));
+    assert (test);
 
-    assert (!isnan(coefficients[1]));
-    assert (!isnan(coefficients[2]));
+    assert (!isnan(test->coefficient_b));
+    assert (!isnan(test->coefficient_c));
 
-    if (check_null(coefficients[1]))
+    if (check_null(test->coefficient_b))
     {
-        if (check_null(coefficients[2]))
+        if (check_null(test->coefficient_c))
         {
             return INF_ROOTS;
         }
@@ -95,13 +93,13 @@ int linear_solver(double* coefficients, double* roots)
     }
     else
     {
-        roots[0] = -coefficients[2]/coefficients[1];
+        test->root_1 = -test->coefficient_b/test->coefficient_b;
 
         return ONE_ROOT;
     }
 }
 
-double discriminant_calculate(double *coefficients)
+double discriminant_calculate(SquareEquationData* test)
 {
-    return (coefficients[1]*coefficients[1]-4*coefficients[0]*coefficients[2]);
+    return ((test->coefficient_b)*(test->coefficient_b)-4*(test->coefficient_a)*(test->coefficient_c));
 }
