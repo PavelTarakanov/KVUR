@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-int equation_solver(SquareEquationData* test)
+int equation_solver(square_equation_data_coefficients* test)
 {
     assert (test);
 
     assert (!isnan(test->coefficient_a));
     assert (!isnan(test->coefficient_b));
     assert (!isnan(test->coefficient_c));
-
 
     if (check_null(test->coefficient_a))
     {
@@ -22,8 +21,7 @@ int equation_solver(SquareEquationData* test)
     }
 }
 
-int square_solver(SquareEquationData* test)
-
+int square_solver(square_equation_data_coefficients* test)
 {
     assert (test);
 
@@ -32,7 +30,6 @@ int square_solver(SquareEquationData* test)
     assert (!isnan(test->coefficient_c));
 
     double discriminant = discriminant_calculate(test);
-
 
     if (discriminant < 0)
     {
@@ -46,7 +43,6 @@ int square_solver(SquareEquationData* test)
         {
             test->root_1 = 0;
         }
-
         return ONE_ROOT;
     }
     else
@@ -73,7 +69,7 @@ int check_null(double root)
     return fabs(root) < INACCURACY;
 }
 
-int linear_solver(SquareEquationData* test)
+int linear_solver(square_equation_data_coefficients* test)
 {
     assert (test);
 
@@ -99,7 +95,7 @@ int linear_solver(SquareEquationData* test)
     }
 }
 
-double discriminant_calculate(SquareEquationData* test)
+double discriminant_calculate(square_equation_data_coefficients* test)
 {
     return ((test->coefficient_b)*(test->coefficient_b)-4*(test->coefficient_a)*(test->coefficient_c));
 }
