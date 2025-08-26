@@ -1,16 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <assert.h>
 #include "square_solver.h"
 
-int main(void)
+int main()
 {
     bool is_continue = true;
-    SquareEquationData test = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
-                     .root_1 = NAN, .root_2 = NAN,
-                     .nRoots = 3};
+    square_equation_data_coefficients test = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
+                               .root_1 = NAN, .root_2 = NAN,
+                               .nRoots = UNKNOWN_NUMBER_OF_ROOTS};
 
     test_square_solver();
+
+    printf("Meow!\nPotlorashka welcomes you in SquareSolver programm\n");
 
     while (is_continue)
     {
@@ -22,19 +25,18 @@ int main(void)
 
         finish_program(&is_continue);
     }
-
     return 0;
 }
 
 
-int finish_program(bool* is_continue)
+void finish_program(bool* is_continue)
 {
     assert (is_continue);
 
     int want_solve_more = 0;
 
-    printf("If you want to continue input m\n");
-    printf("If you want to finish program input s\n");
+    printf("If you want to continue input m\n"
+           "If you want to finish program input s\n");
 
     while (1)
     {
@@ -59,6 +61,5 @@ int finish_program(bool* is_continue)
             continue;
         }
     }
-
-    return 0;
+    return;
 }
