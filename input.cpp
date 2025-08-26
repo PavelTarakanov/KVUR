@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-int input_coefficients(SquareEquationData* test)
+void input_coefficients(square_equation_data_coefficients* test)
 {
     assert (test);
 
@@ -12,11 +12,11 @@ int input_coefficients(SquareEquationData* test)
 
     one_scanf(&test->coefficient_c, "Input free coefficient: ");
 
-    return 0;
+    return;
 }
 
-int one_scanf(double* coefficient, const char* const output)
- {
+void one_scanf(double* coefficient, const char* const output)
+{
     assert (coefficient);
     assert (output);
 
@@ -24,28 +24,29 @@ int one_scanf(double* coefficient, const char* const output)
 
     int is_number = -1;
 
-    while ((is_number = scanf("%lf", coefficient)) != 1 || check_buffer() == 1)
+    while ((is_number = scanf("%lf", coefficient)) != 1 || check_buffer_not_clear() == 1)
     {
         printf("Input number!\n");
         clean_buffer();
     }
-    return 0;
+    return;
 }
 
 void clean_buffer(void)
 {
     while (getchar() != '\n')
-        {
-            continue;
-        }
+    {
+        continue;
+    }
+    return;
 }
 
-int check_buffer(void)
+int check_buffer_not_clear(void)
 {
-    int ch = ' ';
-    while ((ch = getchar()) != '\n')
+    int symbol = ' ';
+    while ((symbol = getchar()) != '\n')
     {
-        if  (ch != '\n' && ch != ' ')
+        if  (symbol != '\n' && symbol != ' ' && symbol != EOF)
         {
             return 1;
         }
