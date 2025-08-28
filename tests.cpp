@@ -67,11 +67,7 @@ void one_test_square_solver(square_equation_data* test_coefficients,
         && double_equal_comparison(test_coefficients->root_1, test_answers->correct_root_1)
         && double_equal_comparison(test_coefficients->root_2, test_answers->correct_root_2)))
     {
-        printf("ERROR: square_solver(%lf, %lf, %lf, ...), nRoots == %d, root_1 = %lf, root_2 = %lf\n"
-               "Correct answer: nRoots = %d, root_1 = %lf, root_2 = %lf\n",
-                    test_coefficients->coefficient_a, test_coefficients->coefficient_b, test_coefficients->coefficient_c,
-                    test_coefficients->nRoots, test_coefficients->root_1, test_coefficients->root_2,
-                    test_answers->correct_nRoots, test_answers->correct_root_1, test_answers->correct_root_2); //TODO print_error_massage
+        print_error_massage(test_coefficients, test_answers);
     }
 }
 
@@ -102,4 +98,15 @@ bool double_equal_comparison(double number_1, double number_2)
     }
 
     return abs(number_1 - number_2) < INACCURACY;
+}
+
+void print_error_massage(square_equation_data* test_coefficients,
+                         reference_solutions_data* test_answers)
+{
+    printf("ERROR: square_solver(%lf, %lf, %lf, ...), nRoots == %d, root_1 = %lf, root_2 = %lf\n"
+           "Correct answer: nRoots = %d, root_1 = %lf, root_2 = %lf\n",
+           test_coefficients->coefficient_a, test_coefficients->coefficient_b, test_coefficients->coefficient_c,
+           test_coefficients->nRoots, test_coefficients->root_1, test_coefficients->root_2,
+           test_answers->correct_nRoots, test_answers->correct_root_1, test_answers->correct_root_2);
+    return;
 }
