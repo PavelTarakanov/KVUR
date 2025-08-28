@@ -46,6 +46,9 @@ void test_square_solver(FILE* file_name);
 void one_test_square_solver(square_equation_data* test_coefficients,
                             reference_solutions_data* test_answers);
 
+void print_error_massage(square_equation_data* test_coefficients,
+                         reference_solutions_data* test_answers);
+
 void root_sorter(square_equation_data* test);
 
 void check_file_opening(const char *file_name, FILE** file_ptr);
