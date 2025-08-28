@@ -2,29 +2,40 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
-#include "square_solver.h"
+#include "square_solver.h" //TODO read about bash script
 
-int main()
+int main(int argc, const char* argv[])
 {
+    FILE* file_name = NULL;
     bool is_continue = true;
-    square_equation_data_coefficients test = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
+    square_equation_data equation = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
                                .root_1 = NAN, .root_2 = NAN,
                                .nRoots = UNKNOWN_NUMBER_OF_ROOTS};
 
-    test_square_solver();
+        if (argc<2)
+    {
+        fprintf(stderr, "Using %s file_name", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    check_file_opening(argv[1], &file_name);
 
-    printf("Meow!\nPotlorashka welcomes you in SquareSolver programm\n");
+    test_square_solver(file_name);
+
+    check_file_closing(file_name);
+
+    Poltorashkas_greeting();
 
     while (is_continue)
     {
-        input_coefficients(&test);
+        input_coefficients(&equation);
 
-        int root_count = equation_solver(&test);
+        equation_solver(&equation);
 
-        output_roots(root_count, &test);
+        output_roots(&equation);
 
         finish_program(&is_continue);
     }
+
     return 0;
 }
 
@@ -33,7 +44,7 @@ void finish_program(bool* is_continue)
 {
     assert (is_continue);
 
-    int want_solve_more = 0;
+    int want_solve_more = 0; //TODO rename
 
     printf("If you want to continue input m\n"
            "If you want to finish program input s\n");
@@ -53,13 +64,33 @@ void finish_program(bool* is_continue)
         {
             break;
         }
-        else
-        {
-            printf("If you want to continue input m\n");
-            printf("If you want to finish programm input s\n");
 
-            continue;
-        }
+        printf("If you want to continue input m\n"
+               "If you want to finish programm input s\n");
     }
+
     return;
+}
+
+void Poltorashkas_greeting(void)
+{
+        printf("Meow!\nPotlorashka welcomes you in SquareSolver programm\n");
+}
+
+void check_file_opening(const char *file_name, FILE** file_ptr)
+{
+    if ((*file_ptr = fopen(file_name, "r")) == NULL)
+    {
+        fprintf(stderr, "Can't open file\" %s\"\n", file_name);
+        exit(EXIT_FAILURE);
+    }
+}
+void check_file_closing(FILE* file_name)
+{
+    assert (file_name);
+
+    if (fclose(file_name) != 0)
+    {
+        fprintf(stderr, "Error while closing file\n");
+    }
 }
