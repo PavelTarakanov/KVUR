@@ -3,81 +3,79 @@
 #include <assert.h>
 #include "square_solver.h"
 
-void test_square_solver()
+void test_square_solver(FILE* file_name)
 {
-    square_equation_data_coefficients tests_coefficients[10] =  {};
-    square_equation_data_correct tests_answers[10] = {};
+    const int NUMBER_OF_TESTS = 10;
 
-    FILE* fp;
-    fp = fopen("tests.txt", "r");
+    square_equation_data tests_equation[NUMBER_OF_TESTS] =  {};
+    reference_solutions_data tests_reference_solutions[NUMBER_OF_TESTS] = {};
 
-    square_equation_data_coefficients file_input_coefficients = {
+    square_equation_data file_input_coefficients = {
             .coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
             .root_1 = NAN, .root_2 = NAN,
-            .nRoots = UNKNOWN_NUMBER_OF_ROOTS};
+            .nRoots = UNKNOWN_NUMBER_OF_ROOTS}; //TODO firs initialization - second open file and another
 
-    square_equation_data_correct file_input_answers = {
+    reference_solutions_data file_input_answers = {
             .correct_root_1 = NAN, .correct_root_2 = NAN,
-            .correct_nRoots = UNKNOWN_NUMBER_OF_ROOTS};
+            .correct_nRoots = UNKNOWN_NUMBER_OF_ROOTS}; //TODO not copy useless
 
-    int tests_counter = 0;
+    int tests_counter = 0; //TODO func if fscanf is using more than one time, check EOF
 
-    while (fscanf(fp, "%lf %lf %lf %lf %lf %d %lf %lf %d",
+    while (fscanf(file_name, "%lf %lf %lf %lf %lf %d %lf %lf %d",
                   &file_input_coefficients.coefficient_a,
                   &file_input_coefficients.coefficient_b,
                   &file_input_coefficients.coefficient_c,
                   &file_input_coefficients.root_1,
                   &file_input_coefficients.root_2,
-                  &file_input_coefficients.nRoots,
+          (int *) &file_input_coefficients.nRoots,
                   &file_input_answers.correct_root_1,
                   &file_input_answers.correct_root_2,
-                  &file_input_answers.correct_nRoots) == 9)
+          (int *) &file_input_answers.correct_nRoots) == 9)
     {
-        tests_coefficients[tests_counter] = file_input_coefficients;
-        tests_answers[tests_counter] = file_input_answers;
+        tests_equation[tests_counter] = file_input_coefficients;
+        tests_reference_solutions[tests_counter] = file_input_answers;
 
-        tests_counter++;
+        tests_counter++; //TODO while -> for
 
-        if (getc(fp) = EOF)
+        int symbol = 0;
+
+        if ((symbol = getc(file_name)) == EOF)
         {
             break;
         }
-
     }
 
-    fclose (fp);
-
-    size_t size = sizeof(tests_coefficients)/sizeof(tests_coefficients[0]);
+    size_t size = sizeof(tests_equation)/sizeof(tests_equation[0]);
 
     for (size_t i = 0; i < size; i++)
     {
-        one_test_square_solver(&tests_coefficients[i], &tests_answers[i]);
+        one_test_square_solver(&tests_equation[i], &tests_reference_solutions[i]);
     }
 }
 
-void one_test_square_solver(square_equation_data_coefficients* test_coefficients,
-                            square_equation_data_correct* test_answers)
+void one_test_square_solver(square_equation_data* test_coefficients,
+                            reference_solutions_data* test_answers)
 {
     assert (test_coefficients);
     assert (test_answers);
 
-    int nRoots =  equation_solver(test_coefficients);
+    equation_solver(test_coefficients);
 
-    root_sorter(test_coefficients);
+    root_sorter(test_coefficients); //TODO colorful text with "escape - sequences"
 
-    if (!(nRoots == test_answers->correct_nRoots
+    if (!(test_coefficients->nRoots == test_answers->correct_nRoots
         && double_equal_comparison(test_coefficients->root_1, test_answers->correct_root_1)
         && double_equal_comparison(test_coefficients->root_2, test_answers->correct_root_2)))
     {
         printf("ERROR: square_solver(%lf, %lf, %lf, ...), nRoots == %d, root_1 = %lf, root_2 = %lf\n"
                "Correct answer: nRoots = %d, root_1 = %lf, root_2 = %lf\n",
                     test_coefficients->coefficient_a, test_coefficients->coefficient_b, test_coefficients->coefficient_c,
-                    nRoots, test_coefficients->root_1, test_coefficients->root_2,
-                    test_answers->correct_nRoots, test_answers->correct_root_1, test_answers->correct_root_2);
+                    test_coefficients->nRoots, test_coefficients->root_1, test_coefficients->root_2,
+                    test_answers->correct_nRoots, test_answers->correct_root_1, test_answers->correct_root_2); //TODO print_error_massage
     }
 }
 
-void root_sorter(square_equation_data_coefficients* test)
+void root_sorter(square_equation_data* test)
 {
     assert (test);
 
@@ -91,15 +89,17 @@ void root_sorter(square_equation_data_coefficients* test)
 }
 
 
-int double_equal_comparison(double number_1, double number_2)
+bool double_equal_comparison(double number_1, double number_2)
 {
     if (isnan(number_1) || isnan(number_2))
     {
         if (isnan(number_1) && isnan(number_2))
         {
-            return 1;
+            return true;
         }
-        return 0;
+
+        return false;
     }
+
     return abs(number_1 - number_2) < INACCURACY;
 }
