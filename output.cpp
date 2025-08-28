@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-void output_roots(int root_count, square_equation_data_coefficients* test)
+void output_roots(square_equation_data* test)
 {
     assert(test);
 
-    switch(root_count)
+    switch(test->nRoots)
     {
         case NO_ROOTS:
             printf("Equation has no roots\n");
@@ -20,8 +20,10 @@ void output_roots(int root_count, square_equation_data_coefficients* test)
         case INF_ROOTS:
             printf("Equation is always correct(all x are roots\n");
             break;
-        default: printf("Mistake!\n");
-                break;
+        case UNKNOWN_NUMBER_OF_ROOTS:
+        default:
+            printf("Mistake!\n");
+            break;
     }
     return;
 }
