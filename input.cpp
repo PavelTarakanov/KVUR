@@ -2,20 +2,20 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-void input_coefficients(square_equation_data_coefficients* test)
+void input_coefficients(square_equation_data* test)
 {
     assert (test);
 
-    one_scanf(&test->coefficient_a, "Input X^2 coefficient: ");
+    input_coefficient(&test->coefficient_a, "Input X^2 coefficient: ");
 
-    one_scanf(&test->coefficient_b, "Input X coefficient: ");
+    input_coefficient(&test->coefficient_b, "Input X coefficient: ");
 
-    one_scanf(&test->coefficient_c, "Input free coefficient: ");
+    input_coefficient(&test->coefficient_c, "Input free coefficient: ");
 
     return;
 }
 
-void one_scanf(double* coefficient, const char* const output)
+void input_coefficient(double* coefficient, const char* const output)
 {
     assert (coefficient);
     assert (output);
@@ -24,11 +24,12 @@ void one_scanf(double* coefficient, const char* const output)
 
     int is_number = -1;
 
-    while ((is_number = scanf("%lf", coefficient)) != 1 || check_buffer_not_clear() == 1)
+    while ((is_number = scanf("%lf", coefficient)) != 1 || check_buffer_not_clear())
     {
         printf("Input number!\n");
         clean_buffer();
     }
+
     return;
 }
 
@@ -38,18 +39,20 @@ void clean_buffer(void)
     {
         continue;
     }
+
     return;
 }
 
-int check_buffer_not_clear(void)
+bool check_buffer_not_clear(void)
 {
     int symbol = ' ';
     while ((symbol = getchar()) != '\n')
     {
         if  (symbol != '\n' && symbol != ' ' && symbol != EOF)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+
+    return false;
 }
