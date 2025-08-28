@@ -49,6 +49,9 @@ void one_test_square_solver(square_equation_data* test_coefficients,
 void print_error_massage(square_equation_data* test_coefficients,
                          reference_solutions_data* test_answers);
 
+void file_input_tests(FILE* file_name, int tests_counter, square_equation_data* tests_equation,
+                      reference_solutions_data* tests_reference_solutions);
+
 void root_sorter(square_equation_data* test);
 
 void check_file_opening(const char *file_name, FILE** file_ptr);
