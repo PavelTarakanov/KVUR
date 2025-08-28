@@ -10,32 +10,9 @@ void test_square_solver(FILE* file_name)
     square_equation_data tests_equation[NUMBER_OF_TESTS] =  {};
     reference_solutions_data tests_reference_solutions[NUMBER_OF_TESTS] = {};
 
-    square_equation_data file_input_coefficients = {
-            .coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
-            .root_1 = NAN, .root_2 = NAN,
-            .nRoots = UNKNOWN_NUMBER_OF_ROOTS}; //TODO firs initialization - second open file and another
-
-    reference_solutions_data file_input_answers = {
-            .correct_root_1 = NAN, .correct_root_2 = NAN,
-            .correct_nRoots = UNKNOWN_NUMBER_OF_ROOTS}; //TODO not copy useless
-
-    int tests_counter = 0; //TODO func if fscanf is using more than one time, check EOF
-
-    while (fscanf(file_name, "%lf %lf %lf %lf %lf %d %lf %lf %d",
-                  &file_input_coefficients.coefficient_a,
-                  &file_input_coefficients.coefficient_b,
-                  &file_input_coefficients.coefficient_c,
-                  &file_input_coefficients.root_1,
-                  &file_input_coefficients.root_2,
-          (int *) &file_input_coefficients.nRoots,
-                  &file_input_answers.correct_root_1,
-                  &file_input_answers.correct_root_2,
-          (int *) &file_input_answers.correct_nRoots) == 9)
+    for (int tests_counter = 0; tests_counter < NUMBER_OF_TESTS; tests_counter++)
     {
-        tests_equation[tests_counter] = file_input_coefficients;
-        tests_reference_solutions[tests_counter] = file_input_answers;
-
-        tests_counter++; //TODO while -> for
+        file_input_tests(file_name, tests_counter, tests_equation, tests_reference_solutions);
 
         int symbol = 0;
 
@@ -109,4 +86,19 @@ void print_error_massage(square_equation_data* test_coefficients,
            test_coefficients->nRoots, test_coefficients->root_1, test_coefficients->root_2,
            test_answers->correct_nRoots, test_answers->correct_root_1, test_answers->correct_root_2);
     return;
+}
+
+void file_input_tests(FILE* file_name, int tests_counter, square_equation_data* tests_equation,
+                      reference_solutions_data* tests_reference_solutions)
+{
+    fscanf(file_name, "%lf %lf %lf %lf %lf %d %lf %lf %d",
+           &tests_equation[tests_counter].coefficient_a,
+           &tests_equation[tests_counter].coefficient_b,
+           &tests_equation[tests_counter].coefficient_c,
+           &tests_equation[tests_counter].root_1,
+           &tests_equation[tests_counter].root_2,
+   (int *) &tests_equation[tests_counter].nRoots,
+           &tests_reference_solutions[tests_counter].correct_root_1,
+           &tests_reference_solutions[tests_counter].correct_root_2,
+   (int *) &tests_reference_solutions[tests_counter].correct_nRoots);
 }
