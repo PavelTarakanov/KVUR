@@ -2,7 +2,9 @@
 #include <math.h>
 #include <stdio.h>
 #include "square_solver.h"
-
+/*!
+Решает полученное ура
+*/
 void equation_solver(coefficients_data* coefficients, solutions_data* solutions)
 {
     assert (coefficients);

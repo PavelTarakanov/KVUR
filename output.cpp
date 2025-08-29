@@ -1,7 +1,11 @@
 #include <assert.h>
 #include <stdio.h>
 #include "square_solver.h"
-
+/*!
+Выводит результат работы программы - количество корней и сами корни, если они есть
+\param[in] solutions - указатель на структуру в которой содержаться корни и их количество
+\return - void-функция
+*/
 void output_roots(solutions_data* solutions)
 {
     assert(solutions);

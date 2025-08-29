@@ -1,7 +1,11 @@
 #include <assert.h>
 #include <stdio.h>
 #include "square_solver.h"
-
+/*!
+Принимает коэффициенты из стандартного ввода и загружает их в структуру
+\param[in] coefficients - указатель на структуру для коэффициентов
+\return void-функция
+*/
 void input_coefficients(coefficients_data* coefficients)
 {
     assert (coefficients);
@@ -14,7 +18,12 @@ void input_coefficients(coefficients_data* coefficients)
 
     return;
 }
-
+/*!
+Выводит текст, указывающий, какой нужно ввести коэффициент, и вводит его, проверяя, число это или нет
+\param[in] coefficient - указатель на структуру для коэффициента
+\param[in] output - постоянный указатель на строку, в который написано, какой нужно ввести коэффициент
+\return - void-функция
+*/
 void input_coefficient(double* coefficient, const char* const output)
 {
     assert (coefficient);
@@ -32,7 +41,10 @@ void input_coefficient(double* coefficient, const char* const output)
 
     return;
 }
-
+/*!
+Чистит буфер
+return - void-функция
+*/
 void clean_buffer(void)
 {
     while (getchar() != '\n')
@@ -42,7 +54,11 @@ void clean_buffer(void)
 
     return;
 }
-
+/*!
+Проверяет, есть ли в буфере что-то кроме пробельных символов
+return: true если есть непробельный символ
+        false если только пробельные символы
+*/
 bool check_buffer_not_clear(void)
 {
     int symbol = ' ';

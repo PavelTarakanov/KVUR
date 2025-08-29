@@ -13,12 +13,11 @@ void test_square_solver(FILE* file_address)
 
     for (int tests_counter = 0; tests_counter < NUMBER_OF_TESTS; tests_counter++)
     {
-        file_input_tests(file_address, tests_counter, tests_coefficients, tests_reference_solutions);
-
-        int symbol = 0;
-
-        if ((symbol = getc(file_address)) == EOF)
+        if (file_input_tests(file_address, tests_counter,
+                             tests_coefficients,
+                             tests_reference_solutions) != 6)
         {
+            printf("Mistake while reading test\n");
             break;
         }
     }
@@ -57,7 +56,7 @@ void one_test_square_solver(coefficients_data* test_coefficients, solutions_data
     {
         print_error_massage(test_coefficients, tests_solutions, tests_reference_solutions);
         *is_tests_correct = false;
-    } //TODO good_message
+    }
 }
 
 void root_sorter(solutions_data* solutions)
@@ -101,16 +100,14 @@ void print_error_massage(coefficients_data* coefficients,
     return;
 }
 
-void file_input_tests(FILE* file_address, int tests_counter, coefficients_data* tests_coefficients,
-                      solutions_data* tests_reference_solutions) //TODO return return value of scanf and check to EOF and num of scanf value
+int file_input_tests(FILE* file_address, int tests_counter, coefficients_data* tests_coefficients,
+                      solutions_data* tests_reference_solutions)
 {
-    fscanf(file_address, "%lf %lf %lf %lf %lf %d",
+    return (fscanf(file_address, "%lf %lf %lf %lf %lf %d",
            &tests_coefficients[tests_counter].coefficient_a,
            &tests_coefficients[tests_counter].coefficient_b,
            &tests_coefficients[tests_counter].coefficient_c,
            &tests_reference_solutions[tests_counter].root_1,
            &tests_reference_solutions[tests_counter].root_2,
-   (int *) &tests_reference_solutions[tests_counter].nRoots);
-
-   return;
+   (int *) &tests_reference_solutions[tests_counter].nRoots));
 }

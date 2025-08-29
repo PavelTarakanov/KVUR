@@ -49,7 +49,7 @@ void print_error_massage(coefficients_data* coefficients,
                             solutions_data* solutions,
                             solutions_data* reference_solutions);
 
-void file_input_tests(FILE* file_name, int tests_counter, coefficients_data* tests_coefficients,
+int file_input_tests(FILE* file_name, int tests_counter, coefficients_data* tests_coefficients,
                       solutions_data* tests_reference_solutions);
 
 void root_sorter(solutions_data* solutions);
