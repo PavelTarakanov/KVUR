@@ -2,15 +2,15 @@
 #include <stdio.h>
 #include "square_solver.h"
 
-void input_coefficients(square_equation_data* test)
+void input_coefficients(coefficients_data* coefficients)
 {
-    assert (test);
+    assert (coefficients);
 
-    input_coefficient(&test->coefficient_a, "Input X^2 coefficient: ");
+    input_coefficient(&coefficients->coefficient_a, "Input X^2 coefficient: ");
 
-    input_coefficient(&test->coefficient_b, "Input X coefficient: ");
+    input_coefficient(&coefficients->coefficient_b, "Input X coefficient: ");
 
-    input_coefficient(&test->coefficient_c, "Input free coefficient: ");
+    input_coefficient(&coefficients->coefficient_c, "Input free coefficient: ");
 
     return;
 }

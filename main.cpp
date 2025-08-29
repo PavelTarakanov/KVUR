@@ -8,15 +8,15 @@ int main(int argc, const char* argv[])
 {
     FILE* file_name = NULL;
     bool is_continue = true;
-    square_equation_data equation = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,
-                               .root_1 = NAN, .root_2 = NAN,
+    coefficients_data coefficients = {.coefficient_a = NAN, .coefficient_b = NAN, .coefficient_c = NAN,};
+    solutions_data solutions = {.root_1 = NAN, .root_2 = NAN,
                                .nRoots = UNKNOWN_NUMBER_OF_ROOTS};
 
-        if (argc<2)
+    if (argc<NUMBER_OF_FILES)
     {
         fprintf(stderr, "Using %s file_name", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+        exit(EXIT_FAILURE); //TODO abort ne vyhod
+    } //TODO in func
     check_file_opening(argv[1], &file_name);
 
     test_square_solver(file_name);
@@ -27,11 +27,11 @@ int main(int argc, const char* argv[])
 
     while (is_continue)
     {
-        input_coefficients(&equation);
+        input_coefficients(&coefficients);
 
-        equation_solver(&equation);
+        equation_solver(&coefficients, &solutions);
 
-        output_roots(&equation);
+        output_roots(&solutions);
 
         finish_program(&is_continue);
     }
