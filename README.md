@@ -1,5 +1,21 @@
-This programm was made to solve square equation.
-To use it you should first input coefficient before x^2, then press Enter, input x coefficient, press Enter again, input free coefficient, press Enter again.
-Then programm will solve your equation and show you results
-Then if you want to sole another equation you must input 'm', else print 's'
-Furthermore, this programm can solve linear equations. To solve such equation just print 0 as a coefficient before x^2
+# mega-humidifier
+
+![](https://img.shields.io/github/license/khmelnitskiianton/mega-humidifier)
+
+Проект решателя квадратного уравнения.
+
+Сделан для Летней школы ФРКТ МФТИ.
+
+**Команда:**
+
+- Тараканов Павел Б01-504
+- Ментор: Андрей Выгузов
+
+**Медиа:**
+
+## Цель проекта
+
+## Задачи проекта
+
+## Инструкция/Функционал:
+
